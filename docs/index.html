@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shado MT5 Web Bot</title>
+  <meta name="description" content="A simple GitHub Pages dashboard for a local MetaTrader 5 Python trading bridge." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="manifest" href="manifest.json" />
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">MetaTrader 5 dashboard</p>
+      <h1>Shado MT5 Web Bot</h1>
+      <p class="subtext">A GitHub-hosted control panel for a local MT5 Python bridge. Default mode is paper/logging mode.</p>
+    </div>
+    <div class="status-card">
+      <span id="connectionDot" class="dot"></span>
+      <strong id="connectionText">Not connected</strong>
+      <small id="connectionHint">Start the backend first.</small>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel wide">
+      <div class="panel-head">
+        <h2>Connection</h2>
+        <button id="checkStatusBtn">Check MT5</button>
+      </div>
+      <label>
+        Backend URL
+        <input id="backendUrl" value="http://127.0.0.1:8000" />
+      </label>
+      <label>
+        API key for POST actions
+        <input id="apiKey" placeholder="Same as API_SECRET in backend/.env" type="password" />
+      </label>
+      <pre id="statusBox">Waiting...</pre>
+    </section>
+
+    <section class="panel">
+      <h2>Bot setup</h2>
+      <div class="grid2">
+        <label>Symbol <input id="symbol" value="EURUSD" /></label>
+        <label>Timeframe
+          <select id="timeframe">
+            <option>M1</option><option>M5</option><option selected>M15</option><option>M30</option><option>H1</option><option>H4</option><option>D1</option>
+          </select>
+        </label>
+        <label>Mode
+          <select id="mode">
+            <option selected>paper</option>
+            <option>live</option>
+          </select>
+        </label>
+        <label>Lot <input id="lot" type="number" step="0.01" value="0.01" /></label>
+        <label>Fast SMA <input id="fastSma" type="number" value="10" /></label>
+        <label>Slow SMA <input id="slowSma" type="number" value="30" /></label>
+        <label>Stop loss points <input id="slPoints" type="number" value="200" /></label>
+        <label>Take profit points <input id="tpPoints" type="number" value="300" /></label>
+        <label>Max spread points <input id="maxSpread" type="number" value="40" /></label>
+        <label>Max positions <input id="maxPositions" type="number" value="1" /></label>
+        <label>Loop seconds <input id="loopSeconds" type="number" value="30" /></label>
+      </div>
+      <div class="actions">
+        <button id="startBotBtn" class="primary">Start bot</button>
+        <button id="stopBotBtn" class="danger">Stop bot</button>
+      </div>
+      <p class="warning">Live trading is blocked unless you unlock it in <code>backend/.env</code>. Test on demo first.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Manual test order</h2>
+      <div class="grid2">
+        <label>Side
+          <select id="manualSide"><option>buy</option><option>sell</option></select>
+        </label>
+        <label>Mode
+          <select id="manualMode"><option selected>paper</option><option>live</option></select>
+        </label>
+      </div>
+      <button id="manualOrderBtn">Send test order/check</button>
+      <p class="muted">Paper mode runs <code>order_check</code> and logs the request instead of sending a live trade.</p>
+    </section>
+
+    <section class="panel wide">
+      <div class="panel-head">
+        <h2>Price chart</h2>
+        <button id="loadChartBtn">Load candles</button>
+      </div>
+      <canvas id="chart" width="900" height="320"></canvas>
+    </section>
+
+    <section class="panel wide">
+      <div class="panel-head">
+        <h2>Bot logs</h2>
+        <button id="refreshLogsBtn">Refresh logs</button>
+      </div>
+      <pre id="logsBox">No logs yet.</pre>
+    </section>
+
+    <section class="panel wide info">
+      <h2>How this works</h2>
+      <p><strong>GitHub Pages</strong> serves this dashboard. Your <strong>Windows PC or VPS</strong> runs the Python backend next to MetaTrader 5. The dashboard calls the backend API, and the backend talks to MT5.</p>
+      <p>The included strategy is just a replaceable SMA crossover example, not a promise that it works. The point is to give you the plumbing: dashboard → Python API → MT5.</p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
