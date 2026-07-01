@@ -1,0 +1,11 @@
+{
+  "name": "Shado MT5 Web Bot",
+  "short_name": "MT5 Bot",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#07120c",
+  "theme_color": "#2dde72",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
